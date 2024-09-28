@@ -11,6 +11,12 @@ namespace flooded_finder_backend.Helper
             CreateMap<RegisterDto, AppUser>();
             CreateMap<Division, DivisionDto>();
             CreateMap<DivisionDto, Division>();
+            CreateMap<District, DistrictDto>();
+            CreateMap<DistrictDto, District>();
+            CreateMap<Upazila, UpazilaDto>();
+            CreateMap<UpazilaDto, Upazila>();
+            CreateMap<Area, AreaDto>();
+            CreateMap<AreaDto, Area>();
         }
     }
 }
