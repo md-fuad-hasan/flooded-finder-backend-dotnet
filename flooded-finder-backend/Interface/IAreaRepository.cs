@@ -6,6 +6,7 @@ namespace flooded_finder_backend.Interface
     {
         ICollection<Area> GetAreas();
         Area GetArea(int id);
+        bool AreaExists(int id);
         bool CreateArea(Area area);
         bool DeleteArea(Area area);
         bool Save();

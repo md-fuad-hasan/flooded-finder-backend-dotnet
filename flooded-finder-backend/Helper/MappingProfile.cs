@@ -17,6 +17,7 @@ namespace flooded_finder_backend.Helper
             CreateMap<UpazilaDto, Upazila>();
             CreateMap<Area, AreaDto>();
             CreateMap<AreaDto, Area>();
+            CreateMap<UserAreaDto, UserArea>();
         }
     }
 }

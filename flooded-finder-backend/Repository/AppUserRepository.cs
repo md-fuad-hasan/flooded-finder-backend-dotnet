@@ -19,6 +19,10 @@ namespace flooded_finder_backend.Repository
          
         }
 
+        public bool AppUserExists(int id)
+        {
+            return _context.AppUsers.Any(x => x.Id == id);
+        }
 
         public bool CreateAppUser(AppUser appUser)
         {

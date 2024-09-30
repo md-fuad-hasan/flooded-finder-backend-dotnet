@@ -7,6 +7,7 @@ namespace flooded_finder_backend.Interface
         ICollection<AppUser> GetAllAppUser();
         AppUser GetAppUser(int id);
         bool AppUserExists(string userName, string email);
+        bool AppUserExists(int id);
         bool CreateAppUser(AppUser appUser);
         bool Save();
     }

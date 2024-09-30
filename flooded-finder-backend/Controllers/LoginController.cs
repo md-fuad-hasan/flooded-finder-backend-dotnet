@@ -48,7 +48,7 @@ namespace flooded_finder_backend.Controllers
 
                     );
 
-                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
+                return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) , UserId = appUser.Id, UserType=appUser.Role});
 
             }
 

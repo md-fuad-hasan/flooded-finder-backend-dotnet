@@ -16,7 +16,11 @@ namespace flooded_finder_backend.Repository
             _context = context;
             _mapper = mapper;
         }
-       
+
+        public bool AreaExists(int id)
+        {
+            return _context.Areas.Any(a => a.Id == id);
+        }
 
         public bool CreateArea(Area area)
         {
