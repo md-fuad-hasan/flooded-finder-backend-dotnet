@@ -1,6 +1,8 @@
 ﻿using flooded_finder_backend.Data;
+using flooded_finder_backend.Dto;
 using flooded_finder_backend.Interface;
 using flooded_finder_backend.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace flooded_finder_backend.Repository
@@ -38,10 +40,33 @@ namespace flooded_finder_backend.Repository
 
         }
 
-        public ICollection<District> GetDistricts()
+        public ICollection<DistrictDetailDto> GetDistrictByDivision(int divisionId)
         {
-            return _context.Districts.ToList();
+            return _context.Districts.Where(d => d.DivisionId == divisionId).Select(d => new DistrictDetailDto
+            {
+                Id = d.Id,
+                Name = d.Name,
+                DivisionId = d.DivisionId,
+                DivisionName = d.Division.Name
+
+            }).ToList();
         }
+
+        public ICollection<DistrictDetailDto> GetDistricts()
+        {
+            return _context.Districts.Select(d => new DistrictDetailDto
+            {
+                Id = d.Id,
+                Name = d.Name,
+                DivisionId = d.DivisionId,
+                DivisionName = d.Division.Name
+
+            }).ToList();
+        }
+
+      
+
+        
 
         public bool Save()
         {
@@ -49,5 +74,7 @@ namespace flooded_finder_backend.Repository
 
             return saved > 0 ? true : false;
         }
+
+       
     }
 }

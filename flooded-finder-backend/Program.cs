@@ -66,6 +66,16 @@ namespace flooded_finder_backend
                 options.AddPolicy("User", policy => policy.RequireRole("User"));
             });
 
+            builder.Services.AddCors(option =>
+            {
+                option.AddDefaultPolicy(policy =>
+                {
+                    policy.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -74,6 +84,8 @@ namespace flooded_finder_backend
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors();
 
             app.UseHttpsRedirection();
 

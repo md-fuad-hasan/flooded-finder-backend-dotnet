@@ -1,4 +1,5 @@
 ﻿using flooded_finder_backend.Data;
+using flooded_finder_backend.Dto;
 using flooded_finder_backend.Interface;
 using flooded_finder_backend.Models;
 using Microsoft.EntityFrameworkCore;
@@ -32,9 +33,19 @@ namespace flooded_finder_backend.Repository
             return _context.Upazilas.Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public ICollection<Upazila> GetUpazilas()
+        public ICollection<UpazilaDetailDto> GetUpazilas()
         {
-            var upazila = _context.Upazilas.ToList();
+            var upazila = _context.Upazilas.Select(u=> new UpazilaDetailDto
+            {
+                Id = u.Id,
+                Name = u.Name,
+                DistrictName = u.District.Name,
+                DivisionName = u.Division.Name,
+                DistrictId = u.DistrictId,
+                DivisionId = u.DivisionId,
+
+            }).ToList();
+
             return upazila;
         }
 

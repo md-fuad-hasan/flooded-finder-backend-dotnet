@@ -24,7 +24,7 @@ namespace flooded_finder_backend.Controllers
         [HttpGet]
         public IActionResult GetUpazilas()
         {
-            var upazilas = _mapper.Map<List<UpazilaDto>>( _upazilaRepository.GetUpazilas());
+            var upazilas = _upazilaRepository.GetUpazilas();
 
             return Ok(upazilas);
         }

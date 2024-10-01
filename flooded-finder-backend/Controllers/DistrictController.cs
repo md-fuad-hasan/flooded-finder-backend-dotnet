@@ -14,20 +14,40 @@ namespace flooded_finder_backend.Controllers
     {
         private readonly IDistrictRepository _districtRepository;
         private readonly IMapper _mapper;
+        private readonly IDivisionRepository _divisionRepository;
 
-        public DistrictController( IDistrictRepository districtRepository, IMapper mapper)
+
+        public DistrictController( IDistrictRepository districtRepository, IMapper mapper, IDivisionRepository divisionRepository)
         {
             _districtRepository = districtRepository;
             _mapper = mapper;
+            _divisionRepository = divisionRepository;
+
         }
 
         [HttpGet]
         public ActionResult GetDistricts()
         {
-            var districts = _mapper.Map<List<DistrictDto>>(_districtRepository.GetDistricts());
+            var districts =_districtRepository.GetDistricts();
 
             return Ok(districts);
         }
+
+        [HttpGet("ByDivision/{divisionId}")]
+
+        public ActionResult GetDistrictByDivision(int divisionId)
+        {
+            if(_divisionRepository.GetDivision(divisionId) == null)
+            {
+                return NotFound("Division doesn't exosts.");
+            }
+
+            var districts = _districtRepository.GetDistrictByDivision(divisionId);
+
+            return Ok(districts);
+        }
+
+
 
         [HttpPost]
         public ActionResult PostDivisions(DistrictDto districtDto)

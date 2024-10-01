@@ -2,6 +2,7 @@
 using flooded_finder_backend.Dto;
 using flooded_finder_backend.Interface;
 using flooded_finder_backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
