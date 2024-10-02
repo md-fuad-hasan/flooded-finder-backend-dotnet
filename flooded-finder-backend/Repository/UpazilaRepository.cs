@@ -49,6 +49,22 @@ namespace flooded_finder_backend.Repository
             return upazila;
         }
 
+        public ICollection<UpazilaDetailDto> GetUpazilasByDistrict(int districtId)
+        {
+            var upazila = _context.Upazilas.Where(u=>u.DistrictId == districtId).Select(u => new UpazilaDetailDto
+            {
+                Id = u.Id,
+                Name = u.Name,
+                DistrictName = u.District.Name,
+                DivisionName = u.Division.Name,
+                DistrictId = u.DistrictId,
+                DivisionId = u.DivisionId,
+
+            }).ToList();
+
+            return upazila;
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

@@ -21,20 +21,20 @@ namespace flooded_finder_backend.Controllers
         }
 
 
-        [HttpGet("GroupsVisitToAreas")]
-        public async Task<IActionResult> GetGroupsVisitToAreas()
+        [HttpGet("TeamsVisitToAreas")]
+        public async Task<IActionResult> GetTeamsVisitToAreas()
         {
             var groups = await _context.AppUsers
                 .Include(ua => ua.UserAreas)
                 .ThenInclude(a => a.Area)
                 .Select(user => new
                 {
-                    UserId = user.Id,
+                    teamId = user.Id,
                     Name = user.UserName,
-                    UserPhone = user.Phone,
-                    UserEmail = user.Email,
+                    TeamPhone = user.Phone,
+                    TeamEmail = user.Email,
                     VisitedAreaCount = user.UserAreas.Count(),
-                    AreaVisited = user.UserAreas.Select(userArea => new
+                    AreasVisited = user.UserAreas.Select(userArea => new
                     {
                         AreaId = userArea.Area.Id,
                         AreaName = userArea.Area.Name,
@@ -53,27 +53,27 @@ namespace flooded_finder_backend.Controllers
 
         }
 
-        [HttpGet("Group/{groupId}/VisitArea")]
-        public async Task<ActionResult> GetGroupVisitToAreasById(int groupId)
+        [HttpGet("Team/{teamId}/VisitArea")]
+        public async Task<ActionResult> GetTeamVisitToAreaById(int teamId)
         {
 
-            if (!_appUserRepository.AppUserExists(groupId))
+            if (!_appUserRepository.AppUserExists(teamId))
             {
                 return NotFound(" Group doesn't exists ");
             }
 
-            var group = _context.AppUsers
-                .Where(u => u.Id == groupId)
+            var team = _context.AppUsers
+                .Where(u => u.Id == teamId)
                 .Select(au => new
                 {
-                    UserId = au.Id,
+                    TeamId = au.Id,
                     Name = au.UserName,
-                    UserPhone = au.Phone,
-                    UserEmail = au.Email
+                    TeamPhone = au.Phone,
+                    TeamEmail = au.Email
                 });
 
             var areas = await _context.UserAreas
-                .Where(ua => ua.UserId == groupId)
+                .Where(ua => ua.UserId == teamId)
                 .Select(userArea => new
                 {
                     AreaId = userArea.Area.Id,
@@ -87,7 +87,7 @@ namespace flooded_finder_backend.Controllers
 
             var Total = areas.Count();
 
-            return Ok(new {Group= group, TotalArea = Total, Areas =areas});
+            return Ok(new {Team= team, TotalArea = Total, Areas =areas});
         }
 
 

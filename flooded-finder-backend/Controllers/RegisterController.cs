@@ -56,13 +56,16 @@ namespace flooded_finder_backend.Controllers
 
             var appUserMap = _mapper.Map<AppUser>(registerDto);
 
-            if (!_userRepository.CreateAppUser(appUserMap))
+            if (_userRepository.CreateAppUser(appUserMap))
             {
-                ModelState.AddModelError("", "Something went Worng");
-                return StatusCode(500, ModelState);
+                return Ok("Successfully Created");
+                
             }
 
-            return Ok("Successfully Created");
+            ModelState.AddModelError("", "Something went Worng");
+            return StatusCode(500, ModelState);
+
+
 
         }
     }

@@ -34,7 +34,7 @@ namespace flooded_finder_backend.Controllers
             return Ok(areas);
         }
 
-        [HttpGet("AreasVisitByGroup")]
+        [HttpGet("AreasVisitByTeam")]
         public async Task<IActionResult> GetAreasVisitByGroup()
         {
             var areas = await _context.Areas
@@ -48,12 +48,13 @@ namespace flooded_finder_backend.Controllers
                     AreaUpazila = area.Upazila.Name,
                     AreaDistrict = area.District.Name,
                     AreaDivision = area.Division.Name,
-                    VisitedAreaCount = area.UserAreas.Count(),
-                    GroupsVisited = area.UserAreas.Select(userArea=> new
+                    VisitedTeamCount = area.UserAreas.Count(),
+                    VisitedTeam = area.UserAreas.Select(userArea=> new
                     {
-                        UserId = userArea.AppUser.Id,
-                        GroupName = userArea.AppUser.UserName,
-                        GroupEmail = userArea.AppUser.Email,
+                        TeamId = userArea.AppUser.Id,
+                        TeamName = userArea.AppUser.UserName,
+                        TeamEmail = userArea.AppUser.Email,
+                        TeamPhone = userArea.AppUser.Phone,
                     }).ToList()
                                                 
 
@@ -68,8 +69,8 @@ namespace flooded_finder_backend.Controllers
         }
 
 
-        [HttpGet("{areaId}/VisitByGroup")]
-        public async Task<IActionResult> GetAreaVisitByGroup(int areaId)
+        [HttpGet("{areaId}/VisitByTeam")]
+        public async Task<IActionResult> GetAreaVisitByTeam(int areaId)
         {
             if (!_areaRepository.AreaExists(areaId))
             {
@@ -88,21 +89,21 @@ namespace flooded_finder_backend.Controllers
                     Division = ar.Division.Name,
                 }).FirstOrDefault();
 
-            var groups = await _context.UserAreas
+            var teams = await _context.UserAreas
                 .Where(ua => ua.AreaId == areaId)
                 .Select(userArea => new
                 {
-                    UserId = userArea.AppUser.Id,
-                    Name = userArea.AppUser.UserName,
-                    UserPhone = userArea.AppUser.Phone,
-                    UserEmail = userArea.AppUser.Email
+                    TeamId = userArea.AppUser.Id,
+                    TeamName = userArea.AppUser.UserName,
+                    TeamPhone = userArea.AppUser.Phone,
+                    TeamEmail = userArea.AppUser.Email
                 })
                 .ToListAsync();
 
 
-            var Total = groups.Count();
+            var Total = teams.Count();
 
-            return Ok(new {Area = area, TotalGroup = Total, Groups = groups });
+            return Ok(new {Area = area, TotalTeam = Total, Teams = teams });
 
         }
 
@@ -111,13 +112,13 @@ namespace flooded_finder_backend.Controllers
         {
             if (areaDto == null)
             {
-                return BadRequest(ModelState);
+                return BadRequest("Area Data is null");
             }
             
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("invalid Error");
             }
 
             var area = _mapper.Map<Area>(areaDto);
