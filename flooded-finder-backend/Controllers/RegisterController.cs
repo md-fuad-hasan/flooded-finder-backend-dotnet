@@ -45,7 +45,7 @@ namespace flooded_finder_backend.Controllers
 
             if (appUser)
             {
-                ModelState.AddModelError("", "User already exists");
+                ModelState.AddModelError("msg", "User already exists");
                 return BadRequest(ModelState);
             }
 
@@ -58,11 +58,11 @@ namespace flooded_finder_backend.Controllers
 
             if (_userRepository.CreateAppUser(appUserMap))
             {
-                return Ok("Successfully Created");
+                return Ok(new { message = "Successfully Created" });
                 
             }
 
-            ModelState.AddModelError("", "Something went Worng");
+            ModelState.AddModelError("msg", "Something went Worng");
             return StatusCode(500, ModelState);
 
 

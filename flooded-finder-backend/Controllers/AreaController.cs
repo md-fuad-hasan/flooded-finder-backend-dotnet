@@ -5,6 +5,7 @@ using flooded_finder_backend.Interface;
 using flooded_finder_backend.Models;
 using flooded_finder_backend.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
@@ -108,7 +109,9 @@ namespace flooded_finder_backend.Controllers
         }
 
         [HttpPost]
-        public ActionResult PostArea(AreaDto areaDto)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public ActionResult PostArea([FromBody] AreaDto areaDto)
         {
             if (areaDto == null)
             {
@@ -125,11 +128,13 @@ namespace flooded_finder_backend.Controllers
 
             if (_areaRepository.CreateArea(area))
             {
-                return Ok("Area Created Successfully.");
+                return Ok(new { message = "Successfully Created" });
             }
 
             return BadRequest(ModelState);
 
         }
+
+     
     }
 }
